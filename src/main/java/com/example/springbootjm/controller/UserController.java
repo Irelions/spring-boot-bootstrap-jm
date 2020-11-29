@@ -16,15 +16,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Controller
-@RequestMapping("/")
+
+
 public class UserController {
 
 	@Autowired
 	private UserService userService;
 
 	//Success +
-	@RequestMapping(value = "admin", method = RequestMethod.GET)
+	@GetMapping("admin")
 	public String showAdmin(ModelMap model, @AuthenticationPrincipal org.springframework.security.core.userdetails.User user_authentication) {
 		List<User> allUsers = userService.listUsers();
 		User newUser = new User();
@@ -40,7 +40,7 @@ public class UserController {
 	}
 
 	//Success +
-	@RequestMapping(value = "user", method = RequestMethod.GET)
+	@GetMapping("user")
 	public String showUser(ModelMap model, @AuthenticationPrincipal org.springframework.security.core.userdetails.User user_authentication){
 		User findUserByUsername = userService.getUserByName(user_authentication.getUsername());
 		User user = userService.getUserByName(user_authentication.getUsername());
@@ -52,7 +52,7 @@ public class UserController {
 	}
 
 	//Success +
-	@PostMapping(value = "/add")
+	@PostMapping("/add")
 	public String create(@ModelAttribute("user") User user, @RequestParam ("roles") String[] roles) {
 		for(String role : roles) {
 			if(role.toLowerCase().contains("admin")){
@@ -67,7 +67,7 @@ public class UserController {
 	}
 
 	//Success +
-    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @GetMapping("login")
     public String loginPage() {
         return "login";
     }
